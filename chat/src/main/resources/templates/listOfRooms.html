@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>chatroom</title>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+</head>
+<body>
+<div>
+    <div>
+        <form th:action="@{/logout}" form-method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+    <div th:each="room: ${listOfRooms}">
+        <a th:href="${'chat/room/' + room.url}" th:text="${room.name}"></a>
+    </div>
+    <div>
+        <a th:href="@{chat/addChatroom}">Add Chatroom</a>
+    </div>
+</div>
+</body>
+</html>

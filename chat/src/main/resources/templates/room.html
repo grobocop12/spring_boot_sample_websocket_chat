@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${roomName}"></title>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+</head>
+<body>
+<div>
+    <div id="messageContainer">
+        <div th:each="message: ${messages}">
+            <p><b>[[${message.authorName}]]: </b>[[${message.text}]]</p>
+        </div>
+    </div>
+    <div>
+        <input type="text" id="messageText">
+        <button type="button" id="sendButton">Send</button>
+    </div>
+
+</div>
+</body>
+<script>
+    const roomUrl = '[[${roomUrl}]]';
+    var stompClient = null;
+    var socket = new SockJS('/app-websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        stompClient.subscribe(`/chat/${roomUrl}`, function (response) {
+            let message = JSON.parse(response.body);
+            $('#messageContainer').append(`<div><p><b>${message.author}</b>: ${message.content}</p></div>`)
+        });
+    });
+
+    $('#sendButton').click((e) => {
+        const text = $('#messageText').val();
+        console.log(text)
+        stompClient.send(`/app/secured/${roomUrl}`, {}, JSON.stringify({'content': text}))
+    })
+</script>
+</html>
