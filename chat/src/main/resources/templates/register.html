@@ -4,26 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/register.css}"/>
 </head>
-<body>
-
-<div th:if="${error}" style="color:red;">
-    <p th:text="${error}"/>
-</div>
-
-<div>
-    <form th:object="${userDTO}" th:action="@{/register}" method="post">
-        <label for="email">Email: </label>
-        <input id="email" type="email" th:field="*{email}" th:required="required">
-        <br/><br/>
-        <label for="username">Username: </label>
-        <input id="username" type="text" th:field="*{name}" th:required="required">
-        <br/><br/>
-        <label for="password">Password: </label>
-        <input id="password" type="password" th:field="*{password}" th:required="required">
-        <br/><br/>
-        <input type="submit" th:value="Submit">
-    </form>
+<body class="text-center">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+        <h3>Spring chat</h3>
+    </header>
+    <main role="main" class="inner cover">
+        <div th:if="${error}" style="color:red;">
+            <p th:text="${error}"/>
+        </div>
+        <div>
+            <form th:object="${userDTO}" th:action="@{/register}" method="post" class="form-register">
+                <input class="form-control" id="email" type="email" th:field="*{email}" th:required="required"
+                       placeholder="Email">
+                <input class="form-control" id="username" type="text" th:field="*{name}" th:required="required"
+                       placeholder="Username">
+                <input class="form-control" id="password" type="password" th:field="*{password}"
+                       th:required="required"
+                       placeholder="Password">
+                <input type="submit" class="btn btn-lg btn-primary btn-block" th:value="Submit">
+            </form>
+        </div>
+    </main>
+    <footer class="mastfoot mt-auto text-center">
+        <div class="inner">
+            <p>Chat by <a th:href="@{https://grobocop.com}">Grobocop</a> 2020</p>
+        </div>
+    </footer>
 </div>
 </body>
 </html>
