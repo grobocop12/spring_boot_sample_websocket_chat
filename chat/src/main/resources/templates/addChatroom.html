@@ -4,18 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Chatroom</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/addChatroom.css}"/>
 </head>
-<body>
-<div>
-    <div>
-        <form th:object="${chatroom}" th:action="@{/chat/addChatroom}" method="POST">
-            <label for="roomName">Room name:</label>
-            <br/><br/>
-            <input id="roomName" th:field="*{name}" type="text">
-            <br/><br/>
-            <input type="submit" value="Create room">
-        </form>
+<body class="text-center">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 w-100">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Grobocop</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="btn btn-outline-secondary" th:href="@{/logout}">
+                Logout
+            </a>
+        </nav>
     </div>
+    <header class="masthead mb-auto">
+        <h3>Spring chat</h3>
+    </header>
+    <main role="main" class="inner cover">
+        <div>
+            <form class="form-signin" th:object="${chatroom}" th:action="@{/chat/addChatroom}" method="POST">
+                <input class="form-control" id="roomName" th:field="*{name}" type="text" placeholder="Room name">
+                <input class="btn btn-lg btn-primary btn-block" type="submit" value="Create room">
+            </form>
+        </div>
+    </main>
+    <footer class="mastfoot mt-auto text-center">
+        <div class="inner">
+            <p>Chat by <a th:href="@{https://grobocop.com}">Grobocop</a> 2020</p>
+        </div>
+    </footer>
 </div>
 </body>
 </html>
