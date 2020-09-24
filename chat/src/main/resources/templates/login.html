@@ -3,34 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
 </head>
-<body>
-<div>
-    <div th:if="${successfulRegister}" style="color:green;">
-        <p>Successfully registered.</p>
-    </div>
-    <div th:if="${param.error}" style="color:red;">
-        <p>Invalid username or password.</p>
-    </div>
-    <div th:if="${param.logout}">
-        <p>Successfully logged out</p>
-    </div>
-    <div>
-        <form th:action="@{/login}" method="post">
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username">
-            <br/>
-            <br/>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password">
-            <br/>
-            <br/>
-            <input type="submit" value="Log in">
-        </form>
-    </div>
-    <div>
-        <p>Register <a th:href="@{/register}">here</a> if you don't have account.</p>
-    </div>
+<body class="text-center">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="masthead mb-auto">
+        <h3>Spring chat</h3>
+    </header>
+    <main role="main" class="inner cover">
+        <div th:if="${successfulRegister}" style="color:green;">
+            <p>Successfully registered.</p>
+        </div>
+        <div th:if="${param.error}" style="color:red;">
+            <p>Invalid username or password.</p>
+        </div>
+        <div th:if="${param.logout}">
+            <p>Successfully logged out</p>
+        </div>
+        <div>
+            <form th:action="@{/login}" method="post" class="form-signin">
+                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                <input class="form-control" type="text" name="username" id="username" placeholder="Username">
+                <input class="form-control" type="password" name="password" id="password" placeholder="Password">
+                <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in">
+                <div>
+                    <p>or</p>
+                    <a class="btn btn-lg btn-secondary btn-block" th:href="@{/register}">Register</a>
+                    <p>if you don't have account.</p>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer class="mastfoot mt-auto text-center">
+        <div class="inner">
+            <p>Chat by <a th:href="@{https://grobocop.com}">Grobocop</a> 2020</p>
+        </div>
+    </footer>
 </div>
 </body>
 </html>

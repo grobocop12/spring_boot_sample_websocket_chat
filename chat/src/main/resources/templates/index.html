@@ -4,25 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat app</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
-<body>
-<div>
-    <div>
-        <div>
-            <a href="/chat">chat</a>
-        </div>
-        <div>
-            <a href="/login">login</a>
-        </div>
-        <div>
-            <a href="/register">register</a>
-        </div>
+<body class="text-center">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 w-100">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Grobocop</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <a class="btn btn-outline-secondary" th:if="${isAuthenticated}" th:href="@{/logout}">
+                Logout
+            </a>
+        </nav>
+        <a th:if="${isAuthenticated != true}" class="btn btn-outline-primary" th:href="@{/login}">Sign up</a>
     </div>
-    <div th:if="${isAuthenticated}">
-        <form th:action="@{/logout}" form-method="post">
-            <button type="submit">Logout</button>
-        </form>
-    </div>
+    <header class="masthead mb-auto">
+        <h3>Spring chat</h3>
+    </header>
+    <main role="main" class="inner cover">
+        <div>
+            <a class="btn btn-lg btn-secondary disable-underline" href="/chat">Start chatting now!</a>
+        </div>
+
+    </main>
+    <footer class="mastfoot mt-auto text-center">
+        <div class="inner">
+            <p>Chat by <a th:href="@{https://grobocop.com}">Grobocop</a> 2020</p>
+        </div>
+    </footer>
 </div>
 </body>
 </html>

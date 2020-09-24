@@ -20,26 +20,32 @@ import javax.validation.constraints.NotBlank
 open class User(
         @Id
         @GeneratedValue(generator = "uuid2")
-        @GenericGenerator(name = "uuid2", strategy = "uuid2")
         @Column(columnDefinition = "varchar(36)")
+        @GenericGenerator(name = "uuid2", strategy = "uuid2")
         var id: String = "",
-        @Column(unique = true, nullable = false)
-        @NotNull
+
         @Email
+        @NotNull
+        @Column(unique = true, nullable = false)
         var email: String = "",
-        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
         @NotBlank
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         var pwd: String = "",
+
         @NotBlank
         @Column(unique = true, nullable = false)
         var name: String = "",
+
         var roles: String = "",
         var enabled: Boolean = true,
         var accountNonExpired: Boolean = true,
         var accountNonLocked: Boolean = true,
         var credentialsNonExpired: Boolean = true,
+
         @CreationTimestamp
-        var created: Date = Date(),
+        open var created: Date = Date(),
+
         @UpdateTimestamp
         var modified: Date = Date()
 ) : UserDetails {
