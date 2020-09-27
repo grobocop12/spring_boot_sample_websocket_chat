@@ -4,6 +4,7 @@ import com.grobocop.chat.data.entity.dto.ChatroomDTO
 import com.grobocop.chat.security.data.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
@@ -18,7 +19,11 @@ class ChatController {
     lateinit var chatroomService: ChatroomService
 
     @GetMapping("")
-    fun chatroom(model: Model): String {
+    fun chatroom(request: HttpServletRequest,
+                 model: Model): String {
+        val user = (request.userPrincipal as UsernamePasswordAuthenticationToken).principal as User
+        val contains = user.authorities.contains(SimpleGrantedAuthority("ADMIN"))
+        model.addAttribute("isAdmin", contains)
         val chatrooms = chatroomService.getListOfChatrooms()
         model.addAttribute("listOfRooms", chatrooms)
         return "listOfRooms"

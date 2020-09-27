@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>chatroom</title>
-    <script src="/webjars/jquery/jquery.min.js"></script>
-    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
-    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <title>Admin console</title>
     <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" th:href="@{/css/listOfChatrooms.css}"/>
 </head>
 <body class="text-center">
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 w-100">
         <h5 class="my-0 mr-md-auto font-weight-normal">Grobocop</h5>
         <nav class="my-2 my-md-0 mr-md-3">
-            <a th:if="${isAdmin == true }" class="btn btn-primary" th:href="@{admin}">Admin Console</a>
+            <a class="btn btn-primary" th:href="@{admin}">Admin Console</a>
             <a class="btn btn-primary" th:href="@{chat/addChatroom}">Add Chatroom</a>
             <a class="btn btn-outline-secondary" th:href="@{/logout}">
                 Logout
@@ -23,7 +20,7 @@
         </nav>
     </div>
     <header class="masthead mb-auto">
-        <h3>Spring chat</h3>
+        <h3>List of users</h3>
     </header>
     <main role="main" class="inner-cover">
         <div class="table-responsive">
@@ -31,13 +28,19 @@
                 <thead>
                 <th>#</th>
                 <th>Name</th>
+                <th>Is active</th>
                 <th></th>
                 </thead>
                 <tbody>
-                <tr th:each="room: ${listOfRooms}">
-                    <td th:text="${roomStat.index + 1}"></td>
-                    <td th:text="${room.name}"></td>
-                    <td><a class="btn btn-primary" th:href="${'chat/room/' + room.url}">Join</a></td>
+                <tr th:each="user: ${listOfUsers}">
+                    <td th:text="${userStat.index + 1}"></td>
+                    <td th:text="${user.name}"></td>
+                    <th:block th:with="condition=${user.accountNonLocked == true}">
+                        <td th:if="${condition}">Active</td>
+                        <td th:unless="${condition}">Locked</td>
+                        <td th:if="${condition}"><a class="btn btn-primary " href="#">Lock</a></td>
+                        <td th:unless="${condition}"><a class="btn btn-primary " href="#">Unlock</a></td>
+                    </th:block>
                 </tr>
                 </tbody>
             </table>

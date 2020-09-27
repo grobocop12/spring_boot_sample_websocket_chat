@@ -4,6 +4,7 @@ import com.grobocop.chat.security.data.Admin
 import com.grobocop.chat.security.data.Member
 import com.grobocop.chat.security.data.User
 import com.grobocop.chat.security.data.dto.UserDTO
+import com.grobocop.chat.security.data.dto.UserDetailsDTO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -20,6 +21,8 @@ class UserService : UserDetailsService {
 
     override fun loadUserByUsername(username: String): User = repository.findOneByName(username)
             ?: throw RuntimeException("User with name: $username does not exist")
+
+    fun getUsers(): List<UserDetailsDTO> = repository.findAllUsers().map{it -> UserDetailsDTO(it)}
 
     fun saveMember(user: UserDTO): User {
         val member = Member()
@@ -56,5 +59,25 @@ class UserService : UserDetailsService {
     }
 
     fun deleteUser(id: String) = repository.deleteById(id)
+
+    fun lockUser(email: String) {
+        val user = repository.findOneByEmail(email)
+        user?.let {
+            it.accountNonLocked = false
+            it.modified = Date()
+            repository.save(it)
+        }
+    }
+
+    fun unLockUser(email: String) {
+        val user = repository.findOneByEmail(email)
+        user?.let {
+            it.accountNonLocked = true
+            it.modified = Date()
+            repository.save(it)
+        }
+    }
+
+
 
 }

@@ -26,6 +26,7 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity?) {
         http?.authorizeRequests()
+                ?.antMatchers("/admin")?.hasAuthority("ADMIN")
                 ?.antMatchers("/chat")?.authenticated()
                 ?.antMatchers("/chat/**")?.authenticated()
                 ?.antMatchers("/")?.permitAll()
@@ -36,7 +37,7 @@ class WebSecurityConfiguration : WebSecurityConfigurerAdapter() {
                 ?.and()
                 ?.logout()
                 ?.logoutRequestMatcher(AntPathRequestMatcher("/logout"))
-                ?.logoutSuccessUrl("/login")
+                ?.logoutSuccessUrl("/")
     }
 
     @Bean
